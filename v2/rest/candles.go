@@ -6,6 +6,7 @@ import (
 	"strings"
 	"net/url"
 	"fmt"
+	"strconv"
 )
 
 // CandleService manages the Candles endpoint.
@@ -96,12 +97,10 @@ func (c *CandleService) HistoryWithQuery(
 	req := NewRequestWithMethod(path.Join("candles", strings.Join(segments,":"), "HIST"), "GET")
 	req.Params = make(url.Values)
 
-	//req.Params.Add("end", strconv.FormatInt(start, 10))
-	//req.Params.Add("end", strconv.FormatInt(start, 10))
-	req.Params.Add("end", string(end))
-	req.Params.Add("start", string(start))
-	req.Params.Add("limit", string(limit))
-	req.Params.Add("sort", string(sort))
+	req.Params.Add("end", strconv.FormatInt(int64(end), 10))
+	req.Params.Add("start", strconv.FormatInt(int64(start), 10))
+	req.Params.Add("limit", strconv.FormatInt(int64(limit), 10))
+	req.Params.Add("sort", strconv.FormatInt(int64(sort), 10))
 
 	raw, err := c.Request(req)
 
